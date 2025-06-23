@@ -26,7 +26,7 @@ The purpose of this project is to demonstrate my data engineering skills in sche
 ## Procedure
 ### 1. data-preparation
 - Create GitHub branches for each major workflow component.
-- Review data data dictionaries: citibike.pdf and weather.pdf.
+- Review the data and the data dictionaries: citibike.pdf and weather.pdf.
 - Perform an exploratory data analysis (EDA) to detect data issues.
 
 ### 2. design-schema
