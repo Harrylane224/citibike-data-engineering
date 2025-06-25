@@ -34,19 +34,19 @@ Virtual Environment: venv
 
 ## Key Components of EDA
 ### 1. Data Structure Inspection
-The notebook is located here: [1_data_structure_inspection.ipynb](1_data_structure_inspection.ipynb)
+The notebook is located here: [1_data_structure_inspection.ipynb](notebooks/1_data_structure_inspection.ipynb)
 - Evaluate consistency with provided data dictionaries.
 - Create lists of column names, data types and inferred domains (distinct, valid and expected values).
 - Detect column groupings for entity relationships.
 
 
 ### 2. Duplicate Detection
-The notebook is located here: [2_duplicate_detection.ipynb](2_duplicate_detection.ipynb)
+The notebook is located here: [2_duplicate_detection.ipynb](notebooks/2_duplicate_detection.ipynb)
 - Assess whether duplicate rows exist in the dataset.
 - Determine uniqueness of identifiers (e.g. primary keys).
 
 ### 3. Missing Values Analysis
-The notebook is located here: []
+The notebook is located here: [3_missing_values.ipynb](notebooks/3_missing_values.ipynb)
 - Identify and quantify the number of missing values in relevant columns.
 - Spot and confirm the data missing patterns (e.g. MAR, MCAR, etc).
 

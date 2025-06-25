@@ -1,6 +1,6 @@
 | Column Name | Description | Data Type | Value Examples | Value Distinct Count |
 | --- | --- | --- | --- | --- |
-| index | Original index of the DataFrame | int64 | [0 1 2] | 34149 |
+| index | Original index of the DataFrame | int64 | [0 1 2] | 247584 |
 | Trip Duration | Duration of the trip in seconds | int64 | [362 200 202] | 6024 |
 | Start Time | Start time of the trip (YYYY-MM-DD HH:MM:SS) | object | ['2016-01-01 00:02:52' '2016-01-01 00:18:22' '2016-01-01 00:18:25'] | 244407 |
 | Stop Time | End time of the trip (YYYY-MM-DD HH:MM:SS) | object | ['2016-01-01 00:08:54' '2016-01-01 00:21:42' '2016-01-01 00:21:47'] | 244137 |

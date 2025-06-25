@@ -13,8 +13,6 @@ def create_markdown_table(df, table_name):
     os.makedirs(output_dir, exist_ok=True)
     file_path = os.path.join(output_dir, f"{table_name}.md")
 
-    print(output_dir)
-
     if os.path.exists(file_path):
         os.remove(file_path)
 
