@@ -51,8 +51,8 @@ The notebook is located here: [3_missing_values.ipynb](notebooks/3_missing_value
 - Spot and confirm the data missing patterns (e.g. MAR, MCAR, etc).
 
 ### 4. Outlier and Range Validation
-- Detect out-of-bound values (e.g. negative durations).
-- Validate time-based fields for date.
+- Outline Business Logic Constraints
+- Detect Categorical and Quantitative Outliers
 
 ### 5. Value Distributions
 - Identify low-caridinality columns for dimension tables.
