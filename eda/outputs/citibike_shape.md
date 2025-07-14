@@ -1,18 +1,19 @@
-| Column Name | Description | Data Type | Value Examples | Value Distinct Count |
-| --- | --- | --- | --- | --- |
-| index | Original index of the DataFrame | int64 | [0 1 2] | 247584 |
-| Trip Duration | Duration of the trip in seconds | int64 | [362 200 202] | 6024 |
-| Start Time | Start time of the trip (YYYY-MM-DD HH:MM:SS) | object | ['2016-01-01 00:02:52' '2016-01-01 00:18:22' '2016-01-01 00:18:25'] | 244407 |
-| Stop Time | End time of the trip (YYYY-MM-DD HH:MM:SS) | object | ['2016-01-01 00:08:54' '2016-01-01 00:21:42' '2016-01-01 00:21:47'] | 244137 |
-| Start Station ID | Unique identifier for the start station | int64 | [3186 3209 3195] | 51 |
-| Start Station Name | Name of the start station | object | ['Grove St PATH' 'Brunswick St' 'Sip Ave'] | 51 |
-| Start Station Latitude | Latitude of the start station | float64 | [40.71958612 40.7241765  40.73074263] | 51 |
-| Start Station Longitude | Longitude of the start station | float64 | [-74.04311746 -74.0506564  -74.06378388] | 51 |
-| End Station ID | Unique identifier for the end station | int64 | [3209 3213 3203] | 102 |
-| End Station Name | Name of the end station | object | ['Brunswick St' 'Van Vorst Park' 'Hamilton Park'] | 102 |
-| End Station Latitude | Latitude of the end station | float64 | [40.7241765  40.71848892 40.72759597] | 102 |
-| End Station Longitude | Longitude of the end station | float64 | [-74.0506564  -74.04772662 -74.04424731] | 102 |
-| Bike ID | Unique identifier for the bike used in the trip | int64 | [24647 24605 24689] | 566 |
-| User Type | Type of user (Customer = 24-hour pass or 3-day pass user; Subscriber = Annual Member) | object | ['Subscriber' 'Customer'] | 2 |
-| Birth Year | Year of birth of the user | float64 | [1964. 1962. 1984.] | 64 |
-| Gender | Gender of the user (0: Unknown, 1: Male, 2: Female) | int64 | [2 1 0] | 3 |
+| source_dataframe | column_name | column_data_type | column_data_model_type | value_distinct_count | value_examples |
+| --- | --- | --- | --- | --- | --- |
+| citibike_df | index | identifier | dimension | 247584 | [0, 1, 2] |
+| citibike_df | Trip Duration | numeric | measure | 6024 | [362, 200, 202] |
+| citibike_df | Start Time | timestamp | dimension | 244407 | ['2016-01-01 00:02:52', '2016-01-01 00:18:22', '2016-01-01 00:18:25'] |
+| citibike_df | Stop Time | timestamp | dimension | 244137 | ['2016-01-01 00:08:54', '2016-01-01 00:21:42', '2016-01-01 00:21:47'] |
+| citibike_df | Start Station ID | identifier | dimension | 51 | [3186, 3209, 3195] |
+| citibike_df | Start Station Name | categorical | dimension | 51 | ['Grove St PATH', 'Brunswick St', 'Sip Ave'] |
+| citibike_df | Start Station Latitude | geographic | dimension | 51 | [40.71958611647166, 40.7241765, 40.73074262530658] |
+| citibike_df | Start Station Longitude | geographic | dimension | 51 | [-74.04311746358871, -74.0506564, -74.06378388404846] |
+| citibike_df | End Station ID | identifier | dimension | 102 | [3209, 3213, 3203] |
+| citibike_df | End Station Name | categorical | dimension | 102 | ['Brunswick St', 'Van Vorst Park', 'Hamilton Park'] |
+| citibike_df | End Station Latitude | geographic | dimension | 102 | [40.7241765, 40.71848892, 40.727595966] |
+| citibike_df | End Station Longitude | geographic | dimension | 102 | [-74.0506564, -74.047726625, -74.044247311] |
+| citibike_df | Bike ID | identifier | dimension | 566 | [24647, 24605, 24689] |
+| citibike_df | User Type | categorical | dimension | 2 | ['Subscriber', 'Customer'] |
+| citibike_df | Birth Year | date | dimension | 64 | [1964.0, 1962.0, 1984.0] |
+| citibike_df | Gender | numeric | measure | 3 | [2, 1, 0] |
+| citibike_df | Trip Date | date | dimension | 362 | [datetime.date(2016, 1, 1), datetime.date(2016, 1, 2), datetime.date(2016, 1, 3)] |

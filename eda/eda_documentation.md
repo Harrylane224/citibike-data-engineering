@@ -51,6 +51,7 @@ The notebook is located here: [3_missing_values.ipynb](notebooks/3_missing_value
 - Spot and confirm the data missing patterns (e.g. MAR, MCAR, etc).
 
 ### 4. Outlier and Range Validation
+The notebook is located here: [4_outlier_range_validation.ipynb](notebooks/4_outlier_range_validation.ipynb)
 - Outline Business Logic Constraints
 - Detect Categorical and Quantitative Outliers
 
