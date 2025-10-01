@@ -17,17 +17,15 @@ The purpose of this project is to demonstrate my data engineering skills in sche
 - newark_airport_2016.csv
 
 ### Tools and Platforms
-- Exploratory Data Analysis: Jupyter Notebook (Python)
-- Database Schema Design: Lucidchart
+- Main Python library: dataflow-pro
 - Database Platform: PostgreSQL
-- ETL Scripting: Python
 - Version Control and Automation: GitHub and GitHub Actions
 
 ## Procedure
 ### 1. data-preparation
-- Create GitHub branches for each major workflow component.
 - Review the data and the data dictionaries: citibike.pdf and weather.pdf.
-- Perform an exploratory data analysis (EDA) to detect data issues.
+- Load the data into a
+- Perform an exploratory data analysis (EDA) to perform a data quality assessment.
 
 ### 2. design-schema
 - Define the list of required tables and fields.
@@ -54,16 +52,6 @@ The purpose of this project is to demonstrate my data engineering skills in sche
 
 ## Project Results
 
-### Exploratory Data Analysis Summary
-#### Detected Duplicate Values
-
-#### Detected Missing Values
-
-### Schema Design Notes
-
-### Database Creation Results
-
-### ETL Pipeline Results
 
 ## References
 [Appfarm] -  https://docs.appfarm.io/appcademy/background/databases/database-normalization
