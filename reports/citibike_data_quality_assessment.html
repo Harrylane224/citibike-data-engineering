@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Quality Assessment - Comprehensive Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .report-header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .report-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .report-meta span {
+            margin: 0 15px;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        section h3 {
+            color: #34495e;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        section h4 {
+            color: #34495e;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        /* Overview Grid */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .overview-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+
+        .overview-card h3 {
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .overview-card p {
+            margin: 5px 0;
+        }
+
+        /* Score Styling */
+        .score {
+            font-size: 2em;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+        }
+
+        .score-excellent { background: #2ecc71; color: white; }
+        .score-good { background: #27ae60; color: white; }
+        .score-fair { background: #f39c12; color: white; }
+        .score-poor { background: #e67e22; color: white; }
+        .score-critical { background: #e74c3c; color: white; }
+
+        /* Quality Score Circle */
+        .quality-score-large {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .score-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        .score-description {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Statistical Profile Styling */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+
+        .stat-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stat-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-table td:first-child {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .stat-table td:last-child {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Quality Assessment Styling */
+        .quality-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .quality-breakdown h4 {
+            margin-bottom: 15px;
+        }
+
+        .issue-counts {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .issue-type {
+            text-align: center;
+            padding: 15px;
+            border-radius: 6px;
+            min-width: 80px;
+        }
+
+        .issue-type.critical {
+            background: #fee;
+            border: 2px solid #e74c3c;
+        }
+
+        .issue-type.warning {
+            background: #fef9e7;
+            border: 2px solid #f39c12;
+        }
+
+        .issue-type.info {
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+        }
+
+        .issue-type .count {
+            display: block;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .issue-type .label {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Quality Issues Styling */
+        .issues-container {
+            margin-top: 20px;
+        }
+
+        .issue-group {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .issue-group.critical {
+            background: #fef5f5;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .issue-group.warning {
+            background: #fefbf0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .issue-group.info {
+            background: #f0f8ff;
+            border-left: 5px solid #3498db;
+        }
+
+        .issue-group h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .issue-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .issue-type {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .issue-count {
+            font-size: 0.9em;
+            color: #666;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .issue-description {
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .issue-column {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .no-issues {
+            text-align: center;
+            padding: 40px;
+            color: #27ae60;
+            font-size: 1.2em;
+        }
+
+        /* Tables */
+        .profile-table, .quality-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .profile-table th,
+        .profile-table td,
+        .quality-table th,
+        .quality-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .profile-table th,
+        .quality-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .profile-table tr:hover,
+        .quality-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .profile-table .high-null {
+            background: #fef5f5;
+        }
+
+        .column-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stats-cell {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Sample Table */
+        .sample-table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        .sample-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .sample-table th,
+        .sample-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .sample-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .sample-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Recommendations */
+        .recommendation-list {
+            margin-top: 20px;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+
+        .recommendation-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .recommendation-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        /* Correlation */
+        .correlation-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .correlation-summary ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .correlation-summary li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Status indicators */
+        .critical { color: #e74c3c; font-weight: bold; }
+        .warning { color: #f39c12; font-weight: bold; }
+        .info { color: #3498db; font-weight: bold; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quality-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .issue-counts {
+                flex-direction: column;
+            }
+
+            .issue-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sample-table-container {
+                font-size: 0.8em;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .container {
+                box-shadow: none;
+                max-width: none;
+            }
+
+            section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .score-circle {
+                box-shadow: none;
+                border: 2px solid #333;
+            }
+        }
+        </style>
+    <style>
+    /* Additional styles for stacked reports */
+    .dataset-section {
+        margin-bottom: 40px;
+        padding: 25px;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        background: #fdfdfd;
+    }
+
+    .dataset-header {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 20px;
+        margin: -25px -25px 25px -25px;
+        border-radius: 6px 6px 0 0;
+        text-align: center;
+    }
+
+    .dataset-header h2 {
+        margin: 0;
+        font-size: 1.8em;
+        border: none;
+        padding: 0;
+    }
+
+    .dataset-navigation {
+        background: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+    }
+
+    .dataset-navigation h3 {
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+
+    .dataset-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .dataset-link {
+        background: #3498db;
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+
+    .dataset-link:hover {
+        background: #2980b9;
+        color: white;
+        text-decoration: none;
+    }
+
+    .summary-overview {
+        background: #e8f4fd;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        border-left: 5px solid #3498db;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .summary-item {
+        text-align: center;
+        padding: 15px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+
+    .summary-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: #2c3e50;
+        display: block;
+    }
+
+    .summary-label {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="report-header">
+            <h1>Data Quality Assessment - Comprehensive Analysis</h1>
+            <div class="report-meta">
+                <span>Generated: 2025-10-20 22:44:34</span>
+                <span>Datasets: 2</span>
+                <span>Total Analysis</span>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <div class="dataset-navigation">
+            <h3>📊 Datasets in this Report</h3>
+            <div class="dataset-links">
+        <a href="#citibike_trips" class="dataset-link">citibike_trips</a><a href="#weather" class="dataset-link">weather</a>
+            </div>
+        </div>
+
+        <!-- Summary Overview -->
+        <div class="summary-overview">
+            <h3>📈 Overall Summary</h3>
+            <div class="summary-grid">
+        
+                <div class="summary-item">
+                    <span class="summary-number">2</span>
+                    <div class="summary-label">Datasets</div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">247,950</span>
+                    <div class="summary-label">Total Rows</div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">31</span>
+                    <div class="summary-label">Total Columns</div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">0.03</span>
+                    <div class="summary-label">Total Memory (GB)</div>
+                </div>
+        
+                <div class="summary-item">
+                    <span class="summary-number score-critical">0</span>
+                    <div class="summary-label">Avg Quality Score</div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-number">48</span>
+                    <div class="summary-label">Total Issues</div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <!-- Dataset: citibike_trips -->
+        <div class="dataset-section" id="citibike_trips">
+            <div class="dataset-header">
+                <h2>📋 citibike_trips</h2>
+            </div>
+            
+            <section class="dataset-overview">
+                <h3>Dataset Overview</h3>
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <h4>Dimensions</h4>
+                        <p><strong>247,584</strong> rows</p>
+                        <p><strong>15</strong> columns</p>
+                        <p><strong>0.025 GB</strong> memory</p>
+                    </div>
+            
+                    <div class="overview-card">
+                        <h4>Quality Score</h4>
+                        <div class="score score-critical">0.0/100</div>
+                        <p>Needs Attention</p>
+                    </div>
+
+                    <div class="overview-card">
+                        <h4>Quality Issues</h4>
+                        <p><span class="critical">0</span> Critical</p>
+                        <p><span class="warning">17</span> Warning</p>
+                        <p><span class="info">8</span> Info</p>
+                    </div>
+                
+                    <div class="overview-card">
+                        <h4>Data Summary</h4>
+                        <p><strong>0.5%</strong> null values</p>
+                        <p><strong>0</strong> duplicates</p>
+                        <p><strong>0.10s</strong> analysis time</p>
+                    </div>
+                
+                </div>
+            </section>
+            
+        <section class="statistical-profile">
+            <h2>Statistical Profile</h2>
+            <div class="profile-content">
+        
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h4>Dataset Characteristics</h4>
+                        <table class="stat-table">
+                            <tr><td>Total Rows:</td><td>247,584</td></tr>
+                            <tr><td>Total Columns:</td><td>15</td></tr>
+                            <tr><td>Memory Usage:</td><td>0.025 GB</td></tr>
+                            <tr><td>Engine Used:</td><td>Polars</td></tr>
+                            <tr><td>Analysis Time:</td><td>0.10s</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="stat-card">
+                        <h4>Data Quality Metrics</h4>
+                        <table class="stat-table">
+                            <tr><td>Null Cells:</td><td>18,999</td></tr>
+                            <tr><td>Null Percentage:</td><td>0.51%</td></tr>
+                            <tr><td>Duplicate Rows:</td><td>0</td></tr>
+                            <tr>
+                            <td>Duplicate Percentage:</td><td>0.00%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h4>Column Types</h4>
+                        <table class="stat-table">
+            <tr><td>Categorical:</td><td>3</td></tr><tr><td>Datetime(time_unit='ms', time_zone=None):</td><td>2</td></tr><tr><td>Float64:</td><td>4</td></tr><tr><td>Int64:</td><td>6</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="stat-card">
+                        <h4>Column Analysis</h4>
+                        <table class="stat-table">
+                            <tr><td>Numeric Columns:</td><td>10</td></tr>
+                            <tr><td>Categorical Candidates:</td><td>0</td></tr>
+                            <tr>
+                            <td>Text Columns:</td><td>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            
+                <div class="correlation-section">
+                    <h4>Correlation Matrix</h4>
+                    <p>Strong correlations found between numeric columns:</p>
+                    <div class="correlation-summary">
+            <p>No strong correlations (>0.7) detected.</p>
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+        
+        <section class="data-quality">
+            <h2>Data Quality Assessment</h2>
+            <div class="quality-content">
+
+                <div class="quality-overview">
+                    <div class="quality-score-large">
+                        <div class="score-circle score-critical">
+                            <span class="score-number">0</span>
+                            <span class="score-label">Quality Score</span>
+                        </div>
+                        <p class="score-description">Needs Attention</p>
+                    </div>
+
+                    <div class="quality-breakdown">
+                        <h4>Issue Breakdown</h4>
+                        <div class="issue-counts">
+                            <div class="issue-type critical">
+                                <span class="count">0</span>
+                                <span class="label">Critical Issues</span>
+                            </div>
+                            <div class="issue-type warning">
+                                <span class="count">17</span>
+                                <span class="label">Warnings</span>
+                            </div>
+                            <div class="issue-type info">
+                                <span class="count">8</span>
+                                <span class="label">Info</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quality-details">
+                    <h4>Quality Metrics</h4>
+                    <table class="quality-table">
+                        <tr><td>Total Records:</td><td>247,584</td></tr>
+                        <tr><td>Total Fields:</td><td>15</td></tr>
+                        <tr><td>Engine Used:</td><td>Polars</td></tr>
+                        <tr><td>Assessment Time:</td><td>0.16s</td></tr>
+        <tr><td>Memory Usage:</td><td>0.025 GB</td></tr><tr><td>Duplicate Rate:</td><td>0.00%</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <section class="column-profiles">
+            <h2>Column Profiles</h2>
+            <table class="profile-table">
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Type</th>
+                        <th>Count</th>
+                        <th>Null %</th>
+                        <th>Unique</th>
+                        <th>Statistics</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+                    <tr class="">
+                        <td class="column-name">Trip Duration</td>
+                        <td>Int64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>6024</td>
+                        <td class="stats-cell">Mean: 885.63; Std: 35937.98; Range: 61 - 16329808; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Start Time</td>
+                        <td>Datetime(time_unit='ms', time_zone=None)</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>244407</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Stop Time</td>
+                        <td>Datetime(time_unit='ms', time_zone=None)</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>244137</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Start Station ID</td>
+                        <td>Int64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>51</td>
+                        <td class="stats-cell">Mean: 3207.07; Std: 26.96; Range: 3183 - 3426; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Start Station Name</td>
+                        <td>Categorical</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>51</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Start Station Latitude</td>
+                        <td>Float64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>51</td>
+                        <td class="stats-cell">Mean: 40.72; Std: 0.01; Range: 40.69263996618329 - 40.752559; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Start Station Longitude</td>
+                        <td>Float64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>51</td>
+                        <td class="stats-cell">Mean: -74.05; Std: 0.01; Range: -74.0969366 - -74.0321082; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">End Station ID</td>
+                        <td>Int64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>102</td>
+                        <td class="stats-cell">Mean: 3203.57; Std: 61.58; Range: 147 - 3426; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">End Station Name</td>
+                        <td>Categorical</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>102</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">End Station Latitude</td>
+                        <td>Float64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>102</td>
+                        <td class="stats-cell">Mean: 40.72; Std: 0.01; Range: 40.69221589 - 40.8013434; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">End Station Longitude</td>
+                        <td>Float64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>102</td>
+                        <td class="stats-cell">Mean: -74.05; Std: 0.01; Range: -74.0969366 - -73.95739; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Bike ID</td>
+                        <td>Int64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>566</td>
+                        <td class="stats-cell">Mean: 24935.26; Std: 748.47; Range: 14552 - 27274; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">User Type</td>
+                        <td>Categorical</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>3</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Birth Year</td>
+                        <td>Int64</td>
+                        <td>247,584</td>
+                        <td>7.7%</td>
+                        <td>65</td>
+                        <td class="stats-cell">Mean: 1979.34; Std: 9.60; Range: 1900 - 2000; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">Gender</td>
+                        <td>Int64</td>
+                        <td>247,584</td>
+                        <td>0.0%</td>
+                        <td>3</td>
+                        <td class="stats-cell">Mean: 1.12; Std: 0.52; Range: 0 - 2</td>
+                    </tr>
+            
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="quality-issues">
+            <h2>Quality Issues</h2>
+            <div class="issues-container">
+        
+                <div class="issue-group warning">
+                    <h3>⚠️ Warnings</h3>
+                    <div class="issue-list">
+            
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">241,560 records (97.6%)</span>
+                        </div>
+                        <div class="issue-description">Column has 241,560 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Trip Duration</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">22,231 records (9.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 22,231 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>Trip Duration</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,533 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,533 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Start Station ID</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">30,572 records (12.3%)</span>
+                        </div>
+                        <div class="issue-description">Column has 30,572 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>Start Station ID</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,533 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,533 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Start Station Name</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,533 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,533 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Start Station Latitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,533 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,533 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Start Station Longitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,482 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,482 duplicate values</div>
+                        <div class="issue-column">Column: <strong>End Station ID</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">26,140 records (10.6%)</span>
+                        </div>
+                        <div class="issue-description">Column has 26,140 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>End Station ID</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,482 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,482 duplicate values</div>
+                        <div class="issue-column">Column: <strong>End Station Name</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,482 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,482 duplicate values</div>
+                        <div class="issue-column">Column: <strong>End Station Latitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,482 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,482 duplicate values</div>
+                        <div class="issue-column">Column: <strong>End Station Longitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,018 records (99.8%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,018 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Bike ID</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">58,251 records (23.5%)</span>
+                        </div>
+                        <div class="issue-description">Column has 58,251 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>Bike ID</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,581 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,581 duplicate values</div>
+                        <div class="issue-column">Column: <strong>User Type</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">228,520 records (92.3%)</span>
+                        </div>
+                        <div class="issue-description">Column has 228,520 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Birth Year</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">247,581 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 247,581 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Gender</strong></div>
+                    </div>
+                
+                    </div>
+                </div>
+            
+                <div class="issue-group info">
+                    <h3>ℹ️ Information</h3>
+                    <div class="issue-list">
+            
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">3,177 records (1.3%)</span>
+                        </div>
+                        <div class="issue-description">Column has 3,177 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Start Time</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">3,447 records (1.4%)</span>
+                        </div>
+                        <div class="issue-description">Column has 3,447 duplicate values</div>
+                        <div class="issue-column">Column: <strong>Stop Time</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">11,933 records (4.8%)</span>
+                        </div>
+                        <div class="issue-description">Column has 11,933 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>Start Station Latitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">6,269 records (2.5%)</span>
+                        </div>
+                        <div class="issue-description">Column has 6,269 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>Start Station Longitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">7,377 records (3.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 7,377 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>End Station Latitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">6,287 records (2.5%)</span>
+                        </div>
+                        <div class="issue-description">Column has 6,287 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>End Station Longitude</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Missing Values</span>
+                            <span class="issue-count">18,999 records (7.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 18,999 missing values (7.7%)</div>
+                        <div class="issue-column">Column: <strong>Birth Year</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">4,211 records (1.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 4,211 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>Birth Year</strong></div>
+                    </div>
+                
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+        
+        <section class="recommendations">
+            <h2>Recommendations</h2>
+            <div class="recommendation-list">
+        
+                <div class="recommendation-item">
+                    <div class="recommendation-number">1</div>
+                    <div class="recommendation-text">Handle missing values: Consider imputation strategies, removal, or explicit missing value indicators</div>
+                </div>
+            
+                <div class="recommendation-item">
+                    <div class="recommendation-number">2</div>
+                    <div class="recommendation-text">Address duplicates: Review data collection process and implement deduplication logic</div>
+                </div>
+            
+                <div class="recommendation-item">
+                    <div class="recommendation-number">3</div>
+                    <div class="recommendation-text">Investigate outliers: Validate extreme values or consider outlier treatment methods</div>
+                </div>
+            
+                <div class="recommendation-item">
+                    <div class="recommendation-number">4</div>
+                    <div class="recommendation-text">Low quality score: Consider comprehensive data cleaning before any analysis</div>
+                </div>
+            
+            </div>
+        </section>
+        
+            <section class="data-sample">
+                <h2>Data Sample</h2>
+                <div class="sample-info">
+                    <p>First 10 rows of the dataset:</p>
+                </div>
+                <div class="sample-table-container">
+            <table border="1" class="dataframe sample-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Trip Duration</th>
+      <th>Start Time</th>
+      <th>Stop Time</th>
+      <th>Start Station ID</th>
+      <th>Start Station Name</th>
+      <th>Start Station Latitude</th>
+      <th>Start Station Longitude</th>
+      <th>End Station ID</th>
+      <th>End Station Name</th>
+      <th>End Station Latitude</th>
+      <th>End Station Longitude</th>
+      <th>Bike ID</th>
+      <th>User Type</th>
+      <th>Birth Year</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>362</td>
+      <td>2016-01-01 00:02:52</td>
+      <td>2016-01-01 00:08:54</td>
+      <td>3186</td>
+      <td>Grove St PATH</td>
+      <td>40.72</td>
+      <td>-74.04</td>
+      <td>3209</td>
+      <td>Brunswick St</td>
+      <td>40.72</td>
+      <td>-74.05</td>
+      <td>24647</td>
+      <td>Subscriber</td>
+      <td>1964.00</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>200</td>
+      <td>2016-01-01 00:18:22</td>
+      <td>2016-01-01 00:21:42</td>
+      <td>3186</td>
+      <td>Grove St PATH</td>
+      <td>40.72</td>
+      <td>-74.04</td>
+      <td>3213</td>
+      <td>Van Vorst Park</td>
+      <td>40.72</td>
+      <td>-74.05</td>
+      <td>24605</td>
+      <td>Subscriber</td>
+      <td>1962.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>202</td>
+      <td>2016-01-01 00:18:25</td>
+      <td>2016-01-01 00:21:47</td>
+      <td>3186</td>
+      <td>Grove St PATH</td>
+      <td>40.72</td>
+      <td>-74.04</td>
+      <td>3213</td>
+      <td>Van Vorst Park</td>
+      <td>40.72</td>
+      <td>-74.05</td>
+      <td>24689</td>
+      <td>Subscriber</td>
+      <td>1962.00</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>248</td>
+      <td>2016-01-01 00:23:13</td>
+      <td>2016-01-01 00:27:21</td>
+      <td>3209</td>
+      <td>Brunswick St</td>
+      <td>40.72</td>
+      <td>-74.05</td>
+      <td>3203</td>
+      <td>Hamilton Park</td>
+      <td>40.73</td>
+      <td>-74.04</td>
+      <td>24693</td>
+      <td>Subscriber</td>
+      <td>1984.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>903</td>
+      <td>2016-01-01 01:03:20</td>
+      <td>2016-01-01 01:18:24</td>
+      <td>3195</td>
+      <td>Sip Ave</td>
+      <td>40.73</td>
+      <td>-74.06</td>
+      <td>3210</td>
+      <td>Pershing Field</td>
+      <td>40.74</td>
+      <td>-74.05</td>
+      <td>24573</td>
+      <td>Customer</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>883</td>
+      <td>2016-01-01 01:03:28</td>
+      <td>2016-01-01 01:18:11</td>
+      <td>3195</td>
+      <td>Sip Ave</td>
+      <td>40.73</td>
+      <td>-74.06</td>
+      <td>3210</td>
+      <td>Pershing Field</td>
+      <td>40.74</td>
+      <td>-74.05</td>
+      <td>24442</td>
+      <td>Customer</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>445</td>
+      <td>2016-01-01 01:07:45</td>
+      <td>2016-01-01 01:15:11</td>
+      <td>3186</td>
+      <td>Grove St PATH</td>
+      <td>40.72</td>
+      <td>-74.04</td>
+      <td>3203</td>
+      <td>Hamilton Park</td>
+      <td>40.73</td>
+      <td>-74.04</td>
+      <td>24510</td>
+      <td>Subscriber</td>
+      <td>1988.00</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>192</td>
+      <td>2016-01-01 01:18:51</td>
+      <td>2016-01-01 01:22:03</td>
+      <td>3211</td>
+      <td>Newark Ave</td>
+      <td>40.72</td>
+      <td>-74.05</td>
+      <td>3203</td>
+      <td>Hamilton Park</td>
+      <td>40.73</td>
+      <td>-74.04</td>
+      <td>24625</td>
+      <td>Subscriber</td>
+      <td>1980.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>409</td>
+      <td>2016-01-01 01:23:44</td>
+      <td>2016-01-01 01:30:34</td>
+      <td>3187</td>
+      <td>Warren St</td>
+      <td>40.72</td>
+      <td>-74.04</td>
+      <td>3214</td>
+      <td>Essex Light Rail</td>
+      <td>40.71</td>
+      <td>-74.04</td>
+      <td>24429</td>
+      <td>Subscriber</td>
+      <td>1990.00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>285</td>
+      <td>2016-01-01 01:25:12</td>
+      <td>2016-01-01 01:29:57</td>
+      <td>3187</td>
+      <td>Warren St</td>
+      <td>40.72</td>
+      <td>-74.04</td>
+      <td>3214</td>
+      <td>Essex Light Rail</td>
+      <td>40.71</td>
+      <td>-74.04</td>
+      <td>24407</td>
+      <td>Subscriber</td>
+      <td>1988.00</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+                </div>
+            </section>
+            
+        </div>
+            
+        <!-- Dataset: weather -->
+        <div class="dataset-section" id="weather">
+            <div class="dataset-header">
+                <h2>📋 weather</h2>
+            </div>
+            
+            <section class="dataset-overview">
+                <h3>Dataset Overview</h3>
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <h4>Dimensions</h4>
+                        <p><strong>366</strong> rows</p>
+                        <p><strong>16</strong> columns</p>
+                        <p><strong>0.000 GB</strong> memory</p>
+                    </div>
+            
+                    <div class="overview-card">
+                        <h4>Quality Score</h4>
+                        <div class="score score-critical">0.0/100</div>
+                        <p>Needs Attention</p>
+                    </div>
+
+                    <div class="overview-card">
+                        <h4>Quality Issues</h4>
+                        <p><span class="critical">2</span> Critical</p>
+                        <p><span class="warning">16</span> Warning</p>
+                        <p><span class="info">5</span> Info</p>
+                    </div>
+                
+                    <div class="overview-card">
+                        <h4>Data Summary</h4>
+                        <p><strong>12.6%</strong> null values</p>
+                        <p><strong>0</strong> duplicates</p>
+                        <p><strong>0.00s</strong> analysis time</p>
+                    </div>
+                
+                </div>
+            </section>
+            
+        <section class="statistical-profile">
+            <h2>Statistical Profile</h2>
+            <div class="profile-content">
+        
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h4>Dataset Characteristics</h4>
+                        <table class="stat-table">
+                            <tr><td>Total Rows:</td><td>366</td></tr>
+                            <tr><td>Total Columns:</td><td>16</td></tr>
+                            <tr><td>Memory Usage:</td><td>0.000 GB</td></tr>
+                            <tr><td>Engine Used:</td><td>Polars</td></tr>
+                            <tr><td>Analysis Time:</td><td>0.00s</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="stat-card">
+                        <h4>Data Quality Metrics</h4>
+                        <table class="stat-table">
+                            <tr><td>Null Cells:</td><td>736</td></tr>
+                            <tr><td>Null Percentage:</td><td>12.57%</td></tr>
+                            <tr><td>Duplicate Rows:</td><td>0</td></tr>
+                            <tr>
+                            <td>Duplicate Percentage:</td><td>0.00%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h4>Column Types</h4>
+                        <table class="stat-table">
+            <tr><td>Categorical:</td><td>2</td></tr><tr><td>Date:</td><td>1</td></tr><tr><td>Float64:</td><td>6</td></tr><tr><td>Int64:</td><td>5</td></tr><tr><td>Null:</td><td>2</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="stat-card">
+                        <h4>Column Analysis</h4>
+                        <table class="stat-table">
+                            <tr><td>Numeric Columns:</td><td>11</td></tr>
+                            <tr><td>Categorical Candidates:</td><td>0</td></tr>
+                            <tr>
+                            <td>Text Columns:</td><td>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            
+                <div class="correlation-section">
+                    <h4>Correlation Matrix</h4>
+                    <p>Strong correlations found between numeric columns:</p>
+                    <div class="correlation-summary">
+            <ul><li><strong>AWND</strong> ↔ <strong>WSF2</strong>: 0.784</li><li><strong>TAVG</strong> ↔ <strong>TMAX</strong>: 0.977</li><li><strong>TAVG</strong> ↔ <strong>TMIN</strong>: 0.983</li><li><strong>TMAX</strong> ↔ <strong>TMIN</strong>: 0.944</li></ul>
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+        
+        <section class="data-quality">
+            <h2>Data Quality Assessment</h2>
+            <div class="quality-content">
+
+                <div class="quality-overview">
+                    <div class="quality-score-large">
+                        <div class="score-circle score-critical">
+                            <span class="score-number">0</span>
+                            <span class="score-label">Quality Score</span>
+                        </div>
+                        <p class="score-description">Needs Attention</p>
+                    </div>
+
+                    <div class="quality-breakdown">
+                        <h4>Issue Breakdown</h4>
+                        <div class="issue-counts">
+                            <div class="issue-type critical">
+                                <span class="count">2</span>
+                                <span class="label">Critical Issues</span>
+                            </div>
+                            <div class="issue-type warning">
+                                <span class="count">16</span>
+                                <span class="label">Warnings</span>
+                            </div>
+                            <div class="issue-type info">
+                                <span class="count">5</span>
+                                <span class="label">Info</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quality-details">
+                    <h4>Quality Metrics</h4>
+                    <table class="quality-table">
+                        <tr><td>Total Records:</td><td>366</td></tr>
+                        <tr><td>Total Fields:</td><td>16</td></tr>
+                        <tr><td>Engine Used:</td><td>Polars</td></tr>
+                        <tr><td>Assessment Time:</td><td>0.01s</td></tr>
+        <tr><td>Memory Usage:</td><td>0.000 GB</td></tr><tr><td>Duplicate Rate:</td><td>0.00%</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <section class="column-profiles">
+            <h2>Column Profiles</h2>
+            <table class="profile-table">
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Type</th>
+                        <th>Count</th>
+                        <th>Null %</th>
+                        <th>Unique</th>
+                        <th>Statistics</th>
+                    </tr>
+                </thead>
+                <tbody>
+        
+                    <tr class="">
+                        <td class="column-name">STATION</td>
+                        <td>Categorical</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>1</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">NAME</td>
+                        <td>Categorical</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>1</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">DATE</td>
+                        <td>Date</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>366</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">AWND</td>
+                        <td>Float64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>70</td>
+                        <td class="stats-cell">Mean: 9.43; Std: 3.75; Range: 2.46 - 22.82; Has outliers</td>
+                    </tr>
+            
+                    <tr class="high-null">
+                        <td class="column-name">PGTM</td>
+                        <td>Null</td>
+                        <td>366</td>
+                        <td>100.0%</td>
+                        <td>1</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">PRCP</td>
+                        <td>Float64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>56</td>
+                        <td class="stats-cell">Mean: 0.10; Std: 0.31; Range: 0.0 - 2.79</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">SNOW</td>
+                        <td>Float64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>11</td>
+                        <td class="stats-cell">Mean: 0.10; Std: 1.28; Range: 0.0 - 24.0</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">SNWD</td>
+                        <td>Float64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>12</td>
+                        <td class="stats-cell">Mean: 0.34; Std: 2.08; Range: 0.0 - 20.1</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">TAVG</td>
+                        <td>Int64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>69</td>
+                        <td class="stats-cell">Mean: 57.20; Std: 17.47; Range: 8 - 89</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">TMAX</td>
+                        <td>Int64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>74</td>
+                        <td class="stats-cell">Mean: 65.99; Std: 18.61; Range: 18 - 99</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">TMIN</td>
+                        <td>Int64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>69</td>
+                        <td class="stats-cell">Mean: 48.46; Std: 17.14; Range: 0 - 80</td>
+                    </tr>
+            
+                    <tr class="high-null">
+                        <td class="column-name">TSUN</td>
+                        <td>Null</td>
+                        <td>366</td>
+                        <td>100.0%</td>
+                        <td>1</td>
+                        <td class="stats-cell">N/A</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">WDF2</td>
+                        <td>Int64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>34</td>
+                        <td class="stats-cell">Mean: 217.84; Std: 102.55; Range: 10 - 360</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">WDF5</td>
+                        <td>Int64</td>
+                        <td>366</td>
+                        <td>0.5%</td>
+                        <td>36</td>
+                        <td class="stats-cell">Mean: 228.27; Std: 97.42; Range: 10 - 360</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">WSF2</td>
+                        <td>Float64</td>
+                        <td>366</td>
+                        <td>0.0%</td>
+                        <td>32</td>
+                        <td class="stats-cell">Mean: 20.48; Std: 6.85; Range: 6.9 - 48.1; Has outliers</td>
+                    </tr>
+            
+                    <tr class="">
+                        <td class="column-name">WSF5</td>
+                        <td>Float64</td>
+                        <td>366</td>
+                        <td>0.5%</td>
+                        <td>45</td>
+                        <td class="stats-cell">Mean: 26.80; Std: 8.88; Range: 10.1 - 66.0; Has outliers</td>
+                    </tr>
+            
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="quality-issues">
+            <h2>Quality Issues</h2>
+            <div class="issues-container">
+        
+                <div class="issue-group critical">
+                    <h3>🚨 Critical Issues</h3>
+                    <div class="issue-list">
+            
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Missing Values</span>
+                            <span class="issue-count">366 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 366 missing values (100.0%)</div>
+                        <div class="issue-column">Column: <strong>PGTM</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Missing Values</span>
+                            <span class="issue-count">366 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 366 missing values (100.0%)</div>
+                        <div class="issue-column">Column: <strong>TSUN</strong></div>
+                    </div>
+                
+                    </div>
+                </div>
+            
+                <div class="issue-group warning">
+                    <h3>⚠️ Warnings</h3>
+                    <div class="issue-list">
+            
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">365 records (99.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 365 duplicate values</div>
+                        <div class="issue-column">Column: <strong>STATION</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Constant Values</span>
+                            <span class="issue-count">366 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has only one unique value (constant column)</div>
+                        <div class="issue-column">Column: <strong>STATION</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">365 records (99.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 365 duplicate values</div>
+                        <div class="issue-column">Column: <strong>NAME</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Constant Values</span>
+                            <span class="issue-count">366 records (100.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has only one unique value (constant column)</div>
+                        <div class="issue-column">Column: <strong>NAME</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">296 records (80.9%)</span>
+                        </div>
+                        <div class="issue-description">Column has 296 duplicate values</div>
+                        <div class="issue-column">Column: <strong>AWND</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">310 records (84.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 310 duplicate values</div>
+                        <div class="issue-column">Column: <strong>PRCP</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">77 records (21.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 77 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>PRCP</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">355 records (97.0%)</span>
+                        </div>
+                        <div class="issue-description">Column has 355 duplicate values</div>
+                        <div class="issue-column">Column: <strong>SNOW</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">354 records (96.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 354 duplicate values</div>
+                        <div class="issue-column">Column: <strong>SNWD</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">297 records (81.1%)</span>
+                        </div>
+                        <div class="issue-description">Column has 297 duplicate values</div>
+                        <div class="issue-column">Column: <strong>TAVG</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">292 records (79.8%)</span>
+                        </div>
+                        <div class="issue-description">Column has 292 duplicate values</div>
+                        <div class="issue-column">Column: <strong>TMAX</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">297 records (81.1%)</span>
+                        </div>
+                        <div class="issue-description">Column has 297 duplicate values</div>
+                        <div class="issue-column">Column: <strong>TMIN</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">332 records (90.7%)</span>
+                        </div>
+                        <div class="issue-description">Column has 332 duplicate values</div>
+                        <div class="issue-column">Column: <strong>WDF2</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">328 records (89.6%)</span>
+                        </div>
+                        <div class="issue-description">Column has 328 duplicate values</div>
+                        <div class="issue-column">Column: <strong>WDF5</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">334 records (91.3%)</span>
+                        </div>
+                        <div class="issue-description">Column has 334 duplicate values</div>
+                        <div class="issue-column">Column: <strong>WSF2</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Duplicate Values</span>
+                            <span class="issue-count">319 records (87.2%)</span>
+                        </div>
+                        <div class="issue-description">Column has 319 duplicate values</div>
+                        <div class="issue-column">Column: <strong>WSF5</strong></div>
+                    </div>
+                
+                    </div>
+                </div>
+            
+                <div class="issue-group info">
+                    <h3>ℹ️ Information</h3>
+                    <div class="issue-list">
+            
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">13 records (3.6%)</span>
+                        </div>
+                        <div class="issue-description">Column has 13 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>AWND</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Missing Values</span>
+                            <span class="issue-count">2 records (0.5%)</span>
+                        </div>
+                        <div class="issue-description">Column has 2 missing values (0.5%)</div>
+                        <div class="issue-column">Column: <strong>WDF5</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">5 records (1.4%)</span>
+                        </div>
+                        <div class="issue-description">Column has 5 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>WSF2</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Missing Values</span>
+                            <span class="issue-count">2 records (0.5%)</span>
+                        </div>
+                        <div class="issue-description">Column has 2 missing values (0.5%)</div>
+                        <div class="issue-column">Column: <strong>WSF5</strong></div>
+                    </div>
+                
+                    <div class="issue-item">
+                        <div class="issue-header">
+                            <span class="issue-type">Outliers</span>
+                            <span class="issue-count">7 records (1.9%)</span>
+                        </div>
+                        <div class="issue-description">Column has 7 outlier values ({outlier_percentage:.1f}%)</div>
+                        <div class="issue-column">Column: <strong>WSF5</strong></div>
+                    </div>
+                
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+        
+        <section class="recommendations">
+            <h2>Recommendations</h2>
+            <div class="recommendation-list">
+        
+                <div class="recommendation-item">
+                    <div class="recommendation-number">1</div>
+                    <div class="recommendation-text">Handle missing values: Consider imputation strategies, removal, or explicit missing value indicators</div>
+                </div>
+            
+                <div class="recommendation-item">
+                    <div class="recommendation-number">2</div>
+                    <div class="recommendation-text">Address duplicates: Review data collection process and implement deduplication logic</div>
+                </div>
+            
+                <div class="recommendation-item">
+                    <div class="recommendation-number">3</div>
+                    <div class="recommendation-text">Investigate outliers: Validate extreme values or consider outlier treatment methods</div>
+                </div>
+            
+                <div class="recommendation-item">
+                    <div class="recommendation-number">4</div>
+                    <div class="recommendation-text">Low quality score: Consider comprehensive data cleaning before any analysis</div>
+                </div>
+            
+            </div>
+        </section>
+        
+            <section class="data-sample">
+                <h2>Data Sample</h2>
+                <div class="sample-info">
+                    <p>First 10 rows of the dataset:</p>
+                </div>
+                <div class="sample-table-container">
+            <table border="1" class="dataframe sample-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>STATION</th>
+      <th>NAME</th>
+      <th>DATE</th>
+      <th>AWND</th>
+      <th>PGTM</th>
+      <th>PRCP</th>
+      <th>SNOW</th>
+      <th>SNWD</th>
+      <th>TAVG</th>
+      <th>TMAX</th>
+      <th>TMIN</th>
+      <th>TSUN</th>
+      <th>WDF2</th>
+      <th>WDF5</th>
+      <th>WSF2</th>
+      <th>WSF5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-01</td>
+      <td>12.75</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>41</td>
+      <td>43</td>
+      <td>34</td>
+      <td>None</td>
+      <td>270</td>
+      <td>280</td>
+      <td>25.90</td>
+      <td>35.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-02</td>
+      <td>9.40</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>36</td>
+      <td>42</td>
+      <td>30</td>
+      <td>None</td>
+      <td>260</td>
+      <td>260</td>
+      <td>21.00</td>
+      <td>25.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-03</td>
+      <td>10.29</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>37</td>
+      <td>47</td>
+      <td>28</td>
+      <td>None</td>
+      <td>270</td>
+      <td>250</td>
+      <td>23.90</td>
+      <td>30.00</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-04</td>
+      <td>17.22</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>32</td>
+      <td>35</td>
+      <td>14</td>
+      <td>None</td>
+      <td>330</td>
+      <td>330</td>
+      <td>25.90</td>
+      <td>33.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-05</td>
+      <td>9.84</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>19</td>
+      <td>31</td>
+      <td>10</td>
+      <td>None</td>
+      <td>360</td>
+      <td>350</td>
+      <td>25.10</td>
+      <td>31.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-06</td>
+      <td>5.37</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>28</td>
+      <td>42</td>
+      <td>15</td>
+      <td>None</td>
+      <td>230</td>
+      <td>250</td>
+      <td>12.10</td>
+      <td>16.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-07</td>
+      <td>3.36</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>35</td>
+      <td>46</td>
+      <td>24</td>
+      <td>None</td>
+      <td>20</td>
+      <td>360</td>
+      <td>8.90</td>
+      <td>10.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-08</td>
+      <td>8.05</td>
+      <td>None</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>38</td>
+      <td>45</td>
+      <td>31</td>
+      <td>None</td>
+      <td>20</td>
+      <td>30</td>
+      <td>14.10</td>
+      <td>16.10</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-09</td>
+      <td>6.71</td>
+      <td>None</td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>44</td>
+      <td>48</td>
+      <td>38</td>
+      <td>None</td>
+      <td>60</td>
+      <td>70</td>
+      <td>13.00</td>
+      <td>17.00</td>
+    </tr>
+    <tr>
+      <td>USW00014734</td>
+      <td>NEWARK LIBERTY INTERNATIONAL AIRPORT, NJ US</td>
+      <td>2016-01-10</td>
+      <td>15.43</td>
+      <td>None</td>
+      <td>1.77</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>53</td>
+      <td>65</td>
+      <td>39</td>
+      <td>None</td>
+      <td>260</td>
+      <td>270</td>
+      <td>36.00</td>
+      <td>42.90</td>
+    </tr>
+  </tbody>
+</table>
+                </div>
+            </section>
+            
+        </div>
+            
+    </div>
+</body>
+</html>
+        
