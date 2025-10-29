@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project demonstrates a comprehensive data engineering solution that integrates 2016 Citi Bike trip data with Newark Airport weather data into a normalised PostgreSQL database. The solution includes data quality assessment, business rule validation, ETL pipeline design, and analytical view creation.
+This project demonstrates a comprehensive data engineering solution that integrates 2016 Citi Bike trip data with Newark Airport weather data into a normalised PostgreSQL database. The solution includes data quality assessment, business rule validation, ETL pipeline design, and unified analytical view creation using DataFlow-Pro framework.
 
 ## Table of Contents
 
@@ -21,26 +21,27 @@ This project demonstrates a comprehensive data engineering solution that integra
 
 ```
 citibike-data-engineering/
+├── citibike-engineering.ipynb          # Main project notebook
 ├── data-sources/
-│   └── data/
-│       ├── JC-201601-citibike-tripdata.csv
-│       ├── JC-201602-citibike-tripdata.csv
-│       ├── ... (12 monthly files)
-│       └── newark_airport_2016.csv
-├── reports/
-│   ├── citibike_data_quality_assessment.html
-│   ├── citibike_rule_validation_assessment.html
-│   ├── citibike_star_schema_design_report.html
-│   └── citibike_star_schema_er_diagram.png
+│   ├── data/
+│   │   ├── JC-201601-citibike-tripdata.csv
+│   │   ├── JC-201602-citibike-tripdata.csv
+│   │   ├── ... (12 monthly files)
+│   │   └── newark_airport_2016.csv
+│   └── data-dictionaries/
+│       ├── citibike.pdf
+│       └── weather.pdf
+├── reports/                            # Generated reports (ignored in git)
+│   └── .gitkeep
 ├── sql/
-│   ├── 01_create_star_schema.sql
-│   └── 02_create_analytical_views.sql
-├── logs/
-│   ├── etl_validation_violations_*.log
-│   └── etl_pipeline_report_*.txt
-├── .env
+│   ├── create_star_schema.sql
+│   └── create_analytical_views.sql
+├── scripts/
+│   └── __init__.py
+├── logs/                               # Generated log files (ignored in git)
+│   └── .gitkeep
 ├── requirements.txt
-├── citibike_project.ipynb
+├── LICENSE
 └── README.md
 ```
 
@@ -49,6 +50,7 @@ citibike-data-engineering/
 - Python 3.9+
 - PostgreSQL 12+
 - Jupyter Notebook or JupyterLab
+- DataFlow-Pro framework
 
 ## Installation
 
@@ -67,6 +69,11 @@ citibike-data-engineering/
 3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+   ```
+
+   **Note**: The project uses DataFlow-Pro framework. If not available, install with:
+   ```bash
+   pip install dataflow-pro
    ```
 
 4. **Set up PostgreSQL database**
@@ -90,9 +97,11 @@ citibike-data-engineering/
 ### Citi Bike Trip Data
 - **Period**: January - December 2016
 - **Location**: Jersey City, New Jersey
-- **Files**: 12 monthly CSV files
+- **Files**: 12 monthly CSV files (~39MB total)
 - **Records**: ~270,000+ trips
 - **Attributes**: Trip duration, start/stop times, station information, user type, demographics
+
+**Note**: The full dataset is included in this repository for demonstration purposes. In a production environment, these would typically be stored in a data lake or external storage system.
 
 ### Weather Data
 - **Source**: Newark Airport Weather Station
@@ -167,19 +176,13 @@ citibike-data-engineering/
   - Success/failure rates
   - Duration and performance statistics
 
-### Task 9: Create SQL Views
-- Created comprehensive analytical view (vw_trip_analysis) joining all tables
-- Added derived metrics:
-  - Trip distance calculations (Haversine formula)
-  - User age at time of trip
-  - Temporal categorisations (peak hours, weekday/weekend)
-  - Weather categorisations (temperature bands, precipitation levels)
-- Built 4 additional summary views:
-  - Daily trip summary
-  - Station popularity metrics
-  - User demographics analysis
-  - Weather impact on ridership
-- Optimised views with strategic indexes
+### Task 9: Create Analytical SQL Views
+- Created unified comprehensive analytical view using SQLGenerator
+- Single view (`v_unified_citibike_analysis`) joins all tables using RelationshipDetector results
+- Includes all dimensions: trips, users, bike stations, weather data
+- Optimised with proper quoted column name handling
+- Limited to 10,000 records for performance
+- Provides single point of access to all integrated data
 
 ## Database Schema
 
@@ -211,11 +214,7 @@ citibike-data-engineering/
 
 **Analytical Views:**
 
-- `vw_trip_analysis`: Comprehensive view joining all tables with derived metrics
-- `vw_daily_trip_summary`: Daily aggregations and statistics
-- `vw_station_popularity`: Station usage metrics
-- `vw_user_demographics_summary`: User demographic analysis
-- `vw_weather_impact_summary`: Weather impact on ridership
+- `v_unified_citibike_analysis`: Comprehensive view joining all tables with complete data integration
 
 ## Usage
 
@@ -223,60 +222,55 @@ citibike-data-engineering/
 
 1. **Start Jupyter Notebook**
    ```bash
-   jupyter notebook citibike_project.ipynb
+   jupyter notebook citibike-engineering.ipynb
    ```
 
 2. **Execute cells sequentially** from Task 1 through Task 9
 
-3. **Review generated reports** in the `reports/` directory
-
-### Querying the Database
+3. **Review generated reports** in the `reports/` directory### Querying the Database
 
 ```sql
--- Example 1: Get comprehensive trip data
-SELECT * FROM vw_trip_analysis
-WHERE trip_date = '2016-07-04'
-LIMIT 100;
-
--- Example 2: Analyse daily patterns
+-- Query the unified analytical view
 SELECT
-    trip_date,
-    trip_day_name,
-    total_trips,
-    avg_temperature,
-    avg_precipitation
-FROM vw_daily_trip_summary
-ORDER BY trip_date;
-
--- Example 3: Find most popular stations
-SELECT
-    station_name,
-    total_departures,
-    active_days,
-    avg_trip_duration / 60.0 as avg_duration_minutes
-FROM vw_station_popularity
-ORDER BY total_departures DESC
-LIMIT 20;
-
--- Example 4: Weather impact analysis
-SELECT
-    temperature_category,
-    precipitation_category,
-    trip_day_type,
-    total_trips,
-    avg_duration_seconds / 60.0 as avg_duration_minutes
-FROM vw_weather_impact_summary
-ORDER BY total_trips DESC;
-
--- Example 5: User demographics
-SELECT
+    trip_start_time,
     user_type,
-    age_group,
-    user_gender_label,
-    total_trips,
-    ROUND(avg_distance_km, 2) as avg_distance_km
-FROM vw_user_demographics_summary
+    user_age_in_2016,
+    start_station_name,
+    end_station_name,
+    trip_duration_seconds / 60.0 as duration_minutes,
+    max_temp_f,
+    precipitation_inches,
+    weather_station_name
+FROM v_unified_citibike_analysis
+WHERE DATE(trip_start_time) = '2016-07-04'
+ORDER BY trip_start_time
+LIMIT 50;
+
+-- Analyze trip patterns by weather
+SELECT
+    CASE
+        WHEN max_temp_f >= 75 THEN 'Hot'
+        WHEN max_temp_f >= 60 THEN 'Warm'
+        WHEN max_temp_f >= 45 THEN 'Cool'
+        ELSE 'Cold'
+    END as temperature_category,
+    COUNT(*) as total_trips,
+    AVG(trip_duration_seconds / 60.0) as avg_duration_minutes,
+    COUNT(DISTINCT user_type) as user_types
+FROM v_unified_citibike_analysis
+WHERE weather_date IS NOT NULL
+GROUP BY temperature_category
 ORDER BY total_trips DESC;
+
+-- Station popularity analysis
+SELECT
+    start_station_name,
+    COUNT(*) as departure_count,
+    AVG(trip_duration_seconds / 60.0) as avg_trip_duration_minutes
+FROM v_unified_citibike_analysis
+GROUP BY start_station_name
+ORDER BY departure_count DESC
+LIMIT 20;
 ```
 
 ## Reports and Outputs
@@ -309,16 +303,16 @@ ORDER BY total_trips DESC;
   - Primary and foreign keys
 
 ### SQL Scripts
-1. **Table Creation** (`01_create_star_schema.sql`)
+1. **Table Creation** (`create_star_schema.sql`)
    - DDL for all dimension and fact tables
    - Primary key definitions
    - Foreign key constraints
-   - Index creation
+   - Proper quoted column names handling
 
-2. **View Creation** (`02_create_analytical_views.sql`)
-   - Comprehensive analytical view
-   - Summary views for common analyses
-   - Optimisation indexes
+2. **View Creation** (`create_analytical_views.sql`)
+   - Unified comprehensive analytical view
+   - Single point of access to all integrated data
+   - Optimised with proper column naming
 
 ### Log Files
 1. **Validation Violations** (`etl_validation_violations_*.log`)
@@ -336,9 +330,8 @@ ORDER BY total_trips DESC;
 
 ### Data Processing
 - **Pandas**: Data manipulation and analysis
-- **Polars**: High-performance DataFrame operations
 - **PyArrow**: Columnar data format and efficient processing
-- **DuckDB**: In-memory analytical database
+- **NumPy**: Numerical computing
 
 ### Database
 - **PostgreSQL**: Production relational database
@@ -346,55 +339,58 @@ ORDER BY total_trips DESC;
 - **psycopg**: PostgreSQL adapter for Python
 
 ### Data Engineering Framework
-- **dataflow-pro**: Custom data engineering framework featuring:
+- **DataFlow-Pro**: Custom data engineering framework featuring:
   - Data quality assessment
   - Schema design and relationship detection
   - Business rule validation
   - ETL pipeline orchestration
+  - SQL generation capabilities
   - Report generation
 
-### Visualisation
+### Visualisation and Reporting
 - **Matplotlib**: Static plotting
 - **Seaborn**: Statistical visualisation
 - **Plotly**: Interactive charts
 
-### Development
+### Development and Configuration
 - **Jupyter Notebook**: Interactive development environment
 - **python-dotenv**: Environment variable management
-- **tqdm**: Progress bars for long-running operations
+- **Rich**: Enhanced terminal output
+- **TQDM**: Progress bars for long-running operations
 
 ## Key Features
 
 ### Data Quality
-- ✅ Comprehensive quality assessment with scoring
-- ✅ Automated issue detection and classification
-- ✅ HTML report generation with visualisations
+-  Comprehensive quality assessment with scoring
+-  Automated issue detection and classification
+-  HTML report generation with visualisations
 
 ### Business Rules
-- ✅ Customisable rule definitions
-- ✅ Multiple severity levels (error, warning, info)
-- ✅ Detailed violation logging
-- ✅ Rule-based data validation during ETL
+-  Customisable rule definitions
+-  Multiple severity levels (error, warning, info)
+-  Detailed violation logging
+-  Rule-based data validation during ETL
 
 ### Schema Design
-- ✅ Automatic relationship detection
-- ✅ Star schema optimisation
-- ✅ Foreign key constraint enforcement
-- ✅ Index strategy for query performance
+-  Automatic relationship detection
+-  Star schema optimisation
+-  Foreign key constraint enforcement
+-  Index strategy for query performance
 
 ### ETL Pipeline
-- ✅ Batch processing for large datasets
-- ✅ Parallel processing support
-- ✅ Error handling and recovery
-- ✅ Comprehensive logging and monitoring
-- ✅ Data validation integration
+-  Batch processing for large datasets
+-  Parallel processing support
+-  Error handling and recovery
+-  Comprehensive logging and monitoring
+-  Data validation integration
 
 ### Analytics
-- ✅ Pre-built analytical views
-- ✅ Derived metrics and categorisations
-- ✅ Temporal analysis capabilities
-- ✅ Weather correlation analysis
-- ✅ User behaviour insights
+-  Unified analytical view joining all tables
+-  Complete data integration using RelationshipDetector
+-  Proper quoted column name handling
+-  Weather correlation analysis
+-  User behaviour insights
+-  Temporal analysis capabilities
 
 ## Business Value
 
@@ -406,7 +402,7 @@ This solution enables comprehensive analysis of bike-sharing patterns, including
 - **Temporal Trends**: Hourly, daily, weekly, and seasonal patterns
 - **Geographic Analysis**: Station popularity, route analysis, service area coverage
 
-The normalised star schema design optimises query performance for analytical workloads while maintaining data integrity through proper constraints and relationships.
+The normalised star schema design with unified analytical view optimises query performance for analytical workloads while maintaining data integrity through proper constraints and relationships. The single comprehensive view provides easy access to all integrated data.
 
 ## Future Enhancements
 
@@ -422,7 +418,7 @@ Potential areas for expansion:
 
 ## Project Status
 
-✅ **COMPLETE**
+ **COMPLETE**
 
 All tasks successfully implemented with comprehensive documentation, testing, and validation. The database is production-ready for analytical queries and business intelligence applications.
 
@@ -434,8 +430,8 @@ Data Engineering Project - 2025
 
 - Citi Bike for providing open trip data
 - NOAA for weather data
-- dataflow-pro framework developers
+- DataFlow-Pro framework developers
 
 ---
 
-**Note**: This project uses Australian English spelling conventions (e.g., "organisation" instead of "organization") as per the developer's preference.
+**Note**: This project demonstrates enterprise-level data engineering practices using modern Python frameworks and PostgreSQL database technologies.

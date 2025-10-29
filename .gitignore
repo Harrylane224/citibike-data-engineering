@@ -137,6 +137,35 @@ ENV/
 env.bak/
 venv.bak/
 
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Data Engineering Project Specific
+# Large CSV data files (comment out if you want to include them)
+data-sources/data/*.csv
+!data-sources/data/sample_*.csv  # Keep sample files if any
+
+# Generated reports (keep structure, ignore generated content)
+reports/*.html
+reports/*.png
+reports/*.pdf
+!reports/.gitkeep
+
+# ETL logs and runtime files
+logs/*.txt
+logs/*.log
+!logs/.gitkeep
+
+# Temporary SQL files
+*.sql.tmp
+*.sql.bak
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -175,9 +204,9 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#  and can be added to the global gitignore or merged into this file. However, if you prefer,
 #  you could uncomment the following to ignore the enitre vscode folder
 # .vscode/
 
