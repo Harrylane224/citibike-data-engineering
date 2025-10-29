@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Quality Assessment - Comprehensive Analysis</title>
+    <title>Citi Bike & Weather Data Quality Assessment</title>
     <style>
         * {
             margin: 0;
@@ -610,9 +610,9 @@
     <div class="container">
         <!-- Header -->
         <header class="report-header">
-            <h1>Data Quality Assessment - Comprehensive Analysis</h1>
+            <h1>Citi Bike & Weather Data Quality Assessment</h1>
             <div class="report-meta">
-                <span>Generated: 2025-10-20 22:44:34</span>
+                <span>Generated: 2025-10-29 22:40:06</span>
                 <span>Datasets: 2</span>
                 <span>Total Analysis</span>
             </div>
@@ -644,7 +644,7 @@
                     <div class="summary-label">Total Columns</div>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-number">0.03</span>
+                    <span class="summary-number">0.01</span>
                     <div class="summary-label">Total Memory (GB)</div>
                 </div>
         
@@ -673,7 +673,7 @@
                         <h4>Dimensions</h4>
                         <p><strong>247,584</strong> rows</p>
                         <p><strong>15</strong> columns</p>
-                        <p><strong>0.025 GB</strong> memory</p>
+                        <p><strong>0.013 GB</strong> memory</p>
                     </div>
             
                     <div class="overview-card">
@@ -693,7 +693,7 @@
                         <h4>Data Summary</h4>
                         <p><strong>0.5%</strong> null values</p>
                         <p><strong>0</strong> duplicates</p>
-                        <p><strong>0.10s</strong> analysis time</p>
+                        <p><strong>0.11s</strong> analysis time</p>
                     </div>
                 
                 </div>
@@ -709,9 +709,9 @@
                         <table class="stat-table">
                             <tr><td>Total Rows:</td><td>247,584</td></tr>
                             <tr><td>Total Columns:</td><td>15</td></tr>
-                            <tr><td>Memory Usage:</td><td>0.025 GB</td></tr>
+                            <tr><td>Memory Usage:</td><td>0.013 GB</td></tr>
                             <tr><td>Engine Used:</td><td>Polars</td></tr>
-                            <tr><td>Analysis Time:</td><td>0.10s</td></tr>
+                            <tr><td>Analysis Time:</td><td>0.11s</td></tr>
                         </table>
                     </div>
 
@@ -732,7 +732,7 @@
                     <div class="stat-card">
                         <h4>Column Types</h4>
                         <table class="stat-table">
-            <tr><td>Categorical:</td><td>3</td></tr><tr><td>Datetime(time_unit='ms', time_zone=None):</td><td>2</td></tr><tr><td>Float64:</td><td>4</td></tr><tr><td>Int64:</td><td>6</td></tr>
+            <tr><td>Categorical:</td><td>3</td></tr><tr><td>Datetime(time_unit='ms', time_zone=None):</td><td>2</td></tr><tr><td>Float32:</td><td>4</td></tr><tr><td>Int16:</td><td>4</td></tr><tr><td>Int32:</td><td>1</td></tr><tr><td>Int8:</td><td>1</td></tr>
                         </table>
                     </div>
 
@@ -797,8 +797,8 @@
                         <tr><td>Total Records:</td><td>247,584</td></tr>
                         <tr><td>Total Fields:</td><td>15</td></tr>
                         <tr><td>Engine Used:</td><td>Polars</td></tr>
-                        <tr><td>Assessment Time:</td><td>0.16s</td></tr>
-        <tr><td>Memory Usage:</td><td>0.025 GB</td></tr><tr><td>Duplicate Rate:</td><td>0.00%</td></tr>
+                        <tr><td>Assessment Time:</td><td>0.19s</td></tr>
+        <tr><td>Memory Usage:</td><td>0.013 GB</td></tr><tr><td>Duplicate Rate:</td><td>0.00%</td></tr>
                     </table>
                 </div>
             </div>
@@ -821,7 +821,7 @@
         
                     <tr class="">
                         <td class="column-name">Trip Duration</td>
-                        <td>Int64</td>
+                        <td>Int32</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>6024</td>
@@ -848,7 +848,7 @@
             
                     <tr class="">
                         <td class="column-name">Start Station ID</td>
-                        <td>Int64</td>
+                        <td>Int16</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>51</td>
@@ -866,25 +866,25 @@
             
                     <tr class="">
                         <td class="column-name">Start Station Latitude</td>
-                        <td>Float64</td>
+                        <td>Float32</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>51</td>
-                        <td class="stats-cell">Mean: 40.72; Std: 0.01; Range: 40.69263996618329 - 40.752559; Has outliers</td>
+                        <td class="stats-cell">Mean: 40.72; Std: 0.01; Range: 40.6926383972168 - 40.752559661865234; Has outliers</td>
                     </tr>
             
                     <tr class="">
                         <td class="column-name">Start Station Longitude</td>
-                        <td>Float64</td>
+                        <td>Float32</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>51</td>
-                        <td class="stats-cell">Mean: -74.05; Std: 0.01; Range: -74.0969366 - -74.0321082; Has outliers</td>
+                        <td class="stats-cell">Mean: -74.05; Std: 0.01; Range: -74.09693908691406 - -74.0321044921875; Has outliers</td>
                     </tr>
             
                     <tr class="">
                         <td class="column-name">End Station ID</td>
-                        <td>Int64</td>
+                        <td>Int16</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>102</td>
@@ -902,25 +902,25 @@
             
                     <tr class="">
                         <td class="column-name">End Station Latitude</td>
-                        <td>Float64</td>
+                        <td>Float32</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>102</td>
-                        <td class="stats-cell">Mean: 40.72; Std: 0.01; Range: 40.69221589 - 40.8013434; Has outliers</td>
+                        <td class="stats-cell">Mean: 40.72; Std: 0.01; Range: 40.69221496582031 - 40.80134201049805; Has outliers</td>
                     </tr>
             
                     <tr class="">
                         <td class="column-name">End Station Longitude</td>
-                        <td>Float64</td>
+                        <td>Float32</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>102</td>
-                        <td class="stats-cell">Mean: -74.05; Std: 0.01; Range: -74.0969366 - -73.95739; Has outliers</td>
+                        <td class="stats-cell">Mean: -74.05; Std: 0.01; Range: -74.09693908691406 - -73.95738983154297; Has outliers</td>
                     </tr>
             
                     <tr class="">
                         <td class="column-name">Bike ID</td>
-                        <td>Int64</td>
+                        <td>Int16</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>566</td>
@@ -938,7 +938,7 @@
             
                     <tr class="">
                         <td class="column-name">Birth Year</td>
-                        <td>Int64</td>
+                        <td>Int16</td>
                         <td>247,584</td>
                         <td>7.7%</td>
                         <td>65</td>
@@ -947,7 +947,7 @@
             
                     <tr class="">
                         <td class="column-name">Gender</td>
-                        <td>Int64</td>
+                        <td>Int8</td>
                         <td>247,584</td>
                         <td>0.0%</td>
                         <td>3</td>
@@ -1264,15 +1264,15 @@
       <td>2016-01-01 00:08:54</td>
       <td>3186</td>
       <td>Grove St PATH</td>
-      <td>40.72</td>
-      <td>-74.04</td>
+      <td>40.719585</td>
+      <td>-74.043114</td>
       <td>3209</td>
       <td>Brunswick St</td>
-      <td>40.72</td>
-      <td>-74.05</td>
+      <td>40.724178</td>
+      <td>-74.050659</td>
       <td>24647</td>
       <td>Subscriber</td>
-      <td>1964.00</td>
+      <td>1964.0</td>
       <td>2</td>
     </tr>
     <tr>
@@ -1281,15 +1281,15 @@
       <td>2016-01-01 00:21:42</td>
       <td>3186</td>
       <td>Grove St PATH</td>
-      <td>40.72</td>
-      <td>-74.04</td>
+      <td>40.719585</td>
+      <td>-74.043114</td>
       <td>3213</td>
       <td>Van Vorst Park</td>
-      <td>40.72</td>
-      <td>-74.05</td>
+      <td>40.718491</td>
+      <td>-74.047729</td>
       <td>24605</td>
       <td>Subscriber</td>
-      <td>1962.00</td>
+      <td>1962.0</td>
       <td>1</td>
     </tr>
     <tr>
@@ -1298,15 +1298,15 @@
       <td>2016-01-01 00:21:47</td>
       <td>3186</td>
       <td>Grove St PATH</td>
-      <td>40.72</td>
-      <td>-74.04</td>
+      <td>40.719585</td>
+      <td>-74.043114</td>
       <td>3213</td>
       <td>Van Vorst Park</td>
-      <td>40.72</td>
-      <td>-74.05</td>
+      <td>40.718491</td>
+      <td>-74.047729</td>
       <td>24689</td>
       <td>Subscriber</td>
-      <td>1962.00</td>
+      <td>1962.0</td>
       <td>2</td>
     </tr>
     <tr>
@@ -1315,15 +1315,15 @@
       <td>2016-01-01 00:27:21</td>
       <td>3209</td>
       <td>Brunswick St</td>
-      <td>40.72</td>
-      <td>-74.05</td>
+      <td>40.724178</td>
+      <td>-74.050659</td>
       <td>3203</td>
       <td>Hamilton Park</td>
-      <td>40.73</td>
-      <td>-74.04</td>
+      <td>40.727596</td>
+      <td>-74.044250</td>
       <td>24693</td>
       <td>Subscriber</td>
-      <td>1984.00</td>
+      <td>1984.0</td>
       <td>1</td>
     </tr>
     <tr>
@@ -1332,12 +1332,12 @@
       <td>2016-01-01 01:18:24</td>
       <td>3195</td>
       <td>Sip Ave</td>
-      <td>40.73</td>
-      <td>-74.06</td>
+      <td>40.730743</td>
+      <td>-74.063782</td>
       <td>3210</td>
       <td>Pershing Field</td>
-      <td>40.74</td>
-      <td>-74.05</td>
+      <td>40.742676</td>
+      <td>-74.051788</td>
       <td>24573</td>
       <td>Customer</td>
       <td>NaN</td>
@@ -1349,12 +1349,12 @@
       <td>2016-01-01 01:18:11</td>
       <td>3195</td>
       <td>Sip Ave</td>
-      <td>40.73</td>
-      <td>-74.06</td>
+      <td>40.730743</td>
+      <td>-74.063782</td>
       <td>3210</td>
       <td>Pershing Field</td>
-      <td>40.74</td>
-      <td>-74.05</td>
+      <td>40.742676</td>
+      <td>-74.051788</td>
       <td>24442</td>
       <td>Customer</td>
       <td>NaN</td>
@@ -1366,15 +1366,15 @@
       <td>2016-01-01 01:15:11</td>
       <td>3186</td>
       <td>Grove St PATH</td>
-      <td>40.72</td>
-      <td>-74.04</td>
+      <td>40.719585</td>
+      <td>-74.043114</td>
       <td>3203</td>
       <td>Hamilton Park</td>
-      <td>40.73</td>
-      <td>-74.04</td>
+      <td>40.727596</td>
+      <td>-74.044250</td>
       <td>24510</td>
       <td>Subscriber</td>
-      <td>1988.00</td>
+      <td>1988.0</td>
       <td>2</td>
     </tr>
     <tr>
@@ -1383,15 +1383,15 @@
       <td>2016-01-01 01:22:03</td>
       <td>3211</td>
       <td>Newark Ave</td>
-      <td>40.72</td>
-      <td>-74.05</td>
+      <td>40.721523</td>
+      <td>-74.046303</td>
       <td>3203</td>
       <td>Hamilton Park</td>
-      <td>40.73</td>
-      <td>-74.04</td>
+      <td>40.727596</td>
+      <td>-74.044250</td>
       <td>24625</td>
       <td>Subscriber</td>
-      <td>1980.00</td>
+      <td>1980.0</td>
       <td>1</td>
     </tr>
     <tr>
@@ -1400,15 +1400,15 @@
       <td>2016-01-01 01:30:34</td>
       <td>3187</td>
       <td>Warren St</td>
-      <td>40.72</td>
-      <td>-74.04</td>
+      <td>40.721123</td>
+      <td>-74.038048</td>
       <td>3214</td>
       <td>Essex Light Rail</td>
-      <td>40.71</td>
-      <td>-74.04</td>
+      <td>40.712772</td>
+      <td>-74.036484</td>
       <td>24429</td>
       <td>Subscriber</td>
-      <td>1990.00</td>
+      <td>1990.0</td>
       <td>1</td>
     </tr>
     <tr>
@@ -1417,15 +1417,15 @@
       <td>2016-01-01 01:29:57</td>
       <td>3187</td>
       <td>Warren St</td>
-      <td>40.72</td>
-      <td>-74.04</td>
+      <td>40.721123</td>
+      <td>-74.038048</td>
       <td>3214</td>
       <td>Essex Light Rail</td>
-      <td>40.71</td>
-      <td>-74.04</td>
+      <td>40.712772</td>
+      <td>-74.036484</td>
       <td>24407</td>
       <td>Subscriber</td>
-      <td>1988.00</td>
+      <td>1988.0</td>
       <td>2</td>
     </tr>
   </tbody>
@@ -2039,16 +2039,16 @@
       <td>12.75</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>41</td>
       <td>43</td>
       <td>34</td>
       <td>None</td>
       <td>270</td>
       <td>280</td>
-      <td>25.90</td>
-      <td>35.10</td>
+      <td>25.9</td>
+      <td>35.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2057,16 +2057,16 @@
       <td>9.40</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>36</td>
       <td>42</td>
       <td>30</td>
       <td>None</td>
       <td>260</td>
       <td>260</td>
-      <td>21.00</td>
-      <td>25.10</td>
+      <td>21.0</td>
+      <td>25.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2075,16 +2075,16 @@
       <td>10.29</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>37</td>
       <td>47</td>
       <td>28</td>
       <td>None</td>
       <td>270</td>
       <td>250</td>
-      <td>23.90</td>
-      <td>30.00</td>
+      <td>23.9</td>
+      <td>30.0</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2093,16 +2093,16 @@
       <td>17.22</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>32</td>
       <td>35</td>
       <td>14</td>
       <td>None</td>
       <td>330</td>
       <td>330</td>
-      <td>25.90</td>
-      <td>33.10</td>
+      <td>25.9</td>
+      <td>33.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2111,16 +2111,16 @@
       <td>9.84</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>19</td>
       <td>31</td>
       <td>10</td>
       <td>None</td>
       <td>360</td>
       <td>350</td>
-      <td>25.10</td>
-      <td>31.10</td>
+      <td>25.1</td>
+      <td>31.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2129,16 +2129,16 @@
       <td>5.37</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>28</td>
       <td>42</td>
       <td>15</td>
       <td>None</td>
       <td>230</td>
       <td>250</td>
-      <td>12.10</td>
-      <td>16.10</td>
+      <td>12.1</td>
+      <td>16.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2147,16 +2147,16 @@
       <td>3.36</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>35</td>
       <td>46</td>
       <td>24</td>
       <td>None</td>
       <td>20</td>
       <td>360</td>
-      <td>8.90</td>
-      <td>10.10</td>
+      <td>8.9</td>
+      <td>10.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2165,16 +2165,16 @@
       <td>8.05</td>
       <td>None</td>
       <td>0.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>38</td>
       <td>45</td>
       <td>31</td>
       <td>None</td>
       <td>20</td>
       <td>30</td>
-      <td>14.10</td>
-      <td>16.10</td>
+      <td>14.1</td>
+      <td>16.1</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2183,16 +2183,16 @@
       <td>6.71</td>
       <td>None</td>
       <td>0.01</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>44</td>
       <td>48</td>
       <td>38</td>
       <td>None</td>
       <td>60</td>
       <td>70</td>
-      <td>13.00</td>
-      <td>17.00</td>
+      <td>13.0</td>
+      <td>17.0</td>
     </tr>
     <tr>
       <td>USW00014734</td>
@@ -2201,16 +2201,16 @@
       <td>15.43</td>
       <td>None</td>
       <td>1.77</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>53</td>
       <td>65</td>
       <td>39</td>
       <td>None</td>
       <td>260</td>
       <td>270</td>
-      <td>36.00</td>
-      <td>42.90</td>
+      <td>36.0</td>
+      <td>42.9</td>
     </tr>
   </tbody>
 </table>

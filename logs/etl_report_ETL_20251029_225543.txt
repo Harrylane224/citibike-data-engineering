@@ -1,0 +1,11 @@
+ETL Pipeline Execution Report
+======================================================================
+
+Execution ID: ETL_20251029_225543
+Pipeline: citibike_etl
+
+Load Results:
+----------------------------------------------------------------------
+
+trips:
+  Status: FAILED

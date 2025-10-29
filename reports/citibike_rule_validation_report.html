@@ -427,18 +427,18 @@
             <div class="dashboard-cards">
                 <div class="card quality-score">
                     <h3>Data Quality Score</h3>
-                    <div class="score">54.5%</div>
-                    <div class="status fair">
-                        Fair
+                    <div class="score">75.0%</div>
+                    <div class="status good">
+                        Good
                     </div>
                 </div>
                 <div class="card rule-stats">
                     <h3>Rule Statistics</h3>
                     <div class="violation-count" style="font-size: 1.8em; color: #2c3e50;">
-                        8
+                        4
                     </div>
                     <div class="stats">
-                        <span class="passed">5 Passed</span>
+                        <span class="passed">3 Passed</span>
                         <span class="failed">1 Failed</span>
                         <span class="warning">0 Warnings</span>
                     </div>
@@ -450,7 +450,7 @@
                     </div>
                     <div class="stats">
                         <span class="failed">0 Critical</span>
-                        <span class="warning">0 Errors</span>
+                        <span class="warning">380 Errors</span>
                     </div>
                 </div>
                 <div class="card execution-stats">
@@ -475,9 +475,9 @@
                 <div class="category-item">
                     <div class="category-name">Business</div>
                     <div class="category-stats">
-                        <span class="success-rate">62.5% Success</span>
+                        <span class="success-rate">75.0% Success</span>
                         <span class="fail-rate">1.0% Failed</span>
-                        <span class="rule-count">8 Rules</span>
+                        <span class="rule-count">4 Rules</span>
                         <span class="violations">380 Violations</span>
                     </div>
                 </div>
@@ -492,72 +492,35 @@
             <div class="table-section">
                 <h4>citibike_trips</h4>
                 <div class="table-stats">
-                    <span class="total-rules">7 Total Rules</span>
-                    <span class="passed">5 Passed</span>
+                    <span class="total-rules">4 Total Rules</span>
+                    <span class="passed">3 Passed</span>
                     <span class="failed">1 Failed</span>
                     <span class="violations">380 Total Violations</span>
                 </div>
                 <div class="rule-details">
             
-                    <div class="rule-result skipped">
-                        <span class="rule-name">Trip timestamps must be within the year 2016</span>
-                        <span class="violation-count">0 violations</span>
-                        <span class="status">Skipped</span>
-                    </div>
-                
                     <div class="rule-result passed">
-                        <span class="rule-name">Start Station ID, End Station ID, and Bike ID are mandatory</span>
+                        <span class="rule-name">Trip duration between 1 minute and 24 hours</span>
                         <span class="violation-count">0 violations</span>
                         <span class="status">Passed</span>
                     </div>
                 
                     <div class="rule-result passed">
-                        <span class="rule-name">Latitude must be within the range of 40.0 to 41.0</span>
-                        <span class="violation-count">0 violations</span>
-                        <span class="status">Passed</span>
-                    </div>
-                
-                    <div class="rule-result passed">
-                        <span class="rule-name">Longitude must be within the range of -75.0 to -73.0</span>
+                        <span class="rule-name">Latitude within NJ range</span>
                         <span class="violation-count">0 violations</span>
                         <span class="status">Passed</span>
                     </div>
                 
                     <div class="rule-result failed">
-                        <span class="rule-name">User Type must be either Customer or Subscriber</span>
+                        <span class="rule-name">Valid user types only</span>
                         <span class="violation-count">380 violations</span>
                         <span class="status">Failed</span>
                     </div>
                 
                     <div class="rule-result passed">
-                        <span class="rule-name">Gender must be either 0 (Unknown), 1 (Male), or 2 (Female)</span>
+                        <span class="rule-name">Reasonable birth years</span>
                         <span class="violation-count">0 violations</span>
                         <span class="status">Passed</span>
-                    </div>
-                
-                    <div class="rule-result passed">
-                        <span class="rule-name">Birth Year must be within the range of 1940 to 2000</span>
-                        <span class="violation-count">0 violations</span>
-                        <span class="status">Passed</span>
-                    </div>
-                
-                </div>
-            </div>
-            
-            <div class="table-section">
-                <h4>weather</h4>
-                <div class="table-stats">
-                    <span class="total-rules">1 Total Rules</span>
-                    <span class="passed">0 Passed</span>
-                    <span class="failed">0 Failed</span>
-                    <span class="violations">0 Total Violations</span>
-                </div>
-                <div class="rule-details">
-            
-                    <div class="rule-result skipped">
-                        <span class="rule-name">Weather dates must be within the year 2016</span>
-                        <span class="violation-count">0 violations</span>
-                        <span class="status">Skipped</span>
                     </div>
                 
                 </div>
@@ -574,7 +537,7 @@
             
                 <div class="violation-item">
                     <div class="violation-header">
-                        <span class="rule-name">User Type must be either Customer or Subscriber</span>
+                        <span class="rule-name">Valid user types only</span>
                         <span class="table-name">citibike_trips</span>
                         <span class="violation-count">380 violations</span>
                     </div>
@@ -591,17 +554,6 @@
         <div class="recommendations">
             <h3>💡 Recommendations</h3>
         
-                <div class="recommendation-category">
-                    <h4>Data Quality Improvements</h4>
-                    <ul>
-                
-                    <li class="recommendation high">
-                        <strong>Improve data quality processes</strong>: Data quality score of 54.5% is below acceptable threshold
-                    </li>
-                    
-                    </ul>
-                </div>
-                
                 <div class="recommendation-category">
                     <h4>Rule Optimization</h4>
                     <ul>
